@@ -10,23 +10,23 @@ Violation is identified by violation id, date issued, violation type, and needs 
 
 ## Driver Use Cases:
 
-View/update/add personal info
-View/update/add/delete vehicle info
-View/add permit
-Make payment for a permit
-Make payment for a violation
+View/update/add personal info\
+View/update/add/delete vehicle info\
+View/add permit\
+Make payment for a permit\
+Make payment for a violation\
 
 ## Administrator Use Cases:
 
-View a list of drivers and their vehicles
-View/update/add/delete drivers
-View/update/add/delete vehicles
-View/update/add/delete permits
-View/update/add/delete violation and violation types
-View/update/add/delete parking lot and parking spaces
+View a list of drivers and their vehicles\
+View/update/add/delete drivers\
+View/update/add/delete vehicles\
+View/update/add/delete permits\
+View/update/add/delete violation and violation types\
+View/update/add/delete parking lot and parking spaces\
 
 ## Generate reports:
 
-List of drivers with outstanding violations and total due
-Collected revenue for violations for certain period/s
-Collected revenue for permits for certain period/s
+List of drivers with outstanding violations and total due\
+Collected revenue for violations for certain period's\
+Collected revenue for permits for certain period's\
