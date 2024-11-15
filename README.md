@@ -8,6 +8,8 @@ You are to design a system to keep track of various parking usecases for the Uni
 
 Violation is identified by violation id, date issued, violation type, and needs a vehicle id. Every violation must have at least one violation type but can have many. Each violation type is tied to violation. Violation type is identified by violation_type_id, violation name, and amount due. Each vehicle does not have to have a permit, but can have more than one permit. Each permit must be assigned to a vehicle. Permit is identified by permit id, permit type, purchase date, expiration date. Each permit is valid for at least one parking lot, but may have more than one parking lot. Parking lot is identified by lot id, permit type, address, and capacity. A parking lot consists of one or more parking spaces. A parking space has to be assigned to a parking lot. Parking space is identified by a space id, parking space type, arrival time, and depart time. There is a parking space type for each parking space and each type is identified by parking space type id.
 
+**Note not all use cases have been implemented**
+
 ## Driver Use Cases:
 
 View/update/add personal info\

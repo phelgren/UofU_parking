@@ -16,4 +16,5 @@ function add_user($conn, $firstname, $lastname, $username, $token, $email, $driv
 	if(!$result) die($conn->error);
 }
 
+
 ?>

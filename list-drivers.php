@@ -14,10 +14,18 @@
 echo <<<_END
 
     <h1 > Driver List</h1>
-    <ul class="list-group">
+    <table class="table table-bordered table-striped">
+    <thead><tr><th> Driver Info</th><th> Actions </th><tr></thead>
+    <tbody>
 _END;
 
-$result = getDrivers('');
+$result = '';
+// So, admin folks have access to all drivers, but student, faculty, and guests only see themselves
+if(in_array('admin',$_SESSION['roles']))
+    $result = getDrivers('','');
+  else
+    $result = getDrivers($_SESSION['username'],'');
+
 $rows = $result->num_rows;
 
 for ($j = 0 ; $j < $rows ; ++$j)
@@ -26,14 +34,18 @@ for ($j = 0 ; $j < $rows ; ++$j)
 
   echo <<<_END
 
-      <li class='list-group-item'>$row[firstname] $row[lastname] ID: $row[driver_id] <a href='edit-driver.php' class='btn btn-info' role='button'>Edit</a> <a href='view-driver.php' class='btn btn-info' role='button'>View</a></li>
+      <tr>
+      <td>$row[firstname] $row[lastname] ID: $row[driver_id]</td>
+      <td> <a href='edit-driver.php?did=$row[driver_id]&firstname=$row[firstname]&lastname= $row[lastname]' class='btn btn-info' role='button'>Edit</a></td>
+      <td> <a href='view-driver.php?did=$row[driver_id]' class='btn btn-info' role='button'>View</a></td></tr>
 
   _END;
   
 }
 
 echo <<<_END
-    </ul>
+  </table>
+    </tbody>
 </div>
 _END;
 
