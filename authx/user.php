@@ -19,13 +19,20 @@ class User{
 		$rows = $result->num_rows;		
 		
 		$roles = Array();
+
 		for($i=0; $i<$rows; $i++){
 			$row = $result->fetch_array(MYSQLI_ASSOC);
 			
 			$roles[] = $row['role'];		
-		    $this->roles = $roles;
 		}		
+		if(empty($roles)){// nothing in the roles table get is from the driver record
 
+			$result = getDrivers($username,'');
+			$driver = $result->fetch_array(MYSQLI_ASSOC);
+			$role = $driver['driver_type'];
+			$roles[]= $role;
+		}
+		$this->roles = $roles;
 	}
 
 	function getRoles(){

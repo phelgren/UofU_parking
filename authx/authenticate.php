@@ -24,7 +24,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 		$result->data_seek($j); 
 		$row = $result->fetch_array(MYSQLI_ASSOC);
 		$passwordFromDB = $row['password'];
-	
 	}
     	
 	//Compare passwords
@@ -42,7 +41,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	}
 	else
 	{
-		echo "login error<br>";
+		header("Location: ..\login-error.php");
 	}	
 }
 

@@ -6,7 +6,7 @@
   require_once 'authx\roletypes.php';
 
     $username = $_SESSION['username'];
-    $result = getDrivers($username);
+    $result = getDrivers($username,'');
 
     $driver = $result->fetch_array(MYSQLI_ASSOC);
     $role = $driver['driver_type'];

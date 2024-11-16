@@ -15,7 +15,7 @@ require_once 'authx\utilities.php';
 	<nav class="navbar navbar-default">
 	  <div class="container">
 		<div class="navbar-header">
-		   <a class="navbar-brand" href="#home"><span class="glyphicon glyphicon-home logo-small "></span></a>
+		   <a class="navbar-brand" href="#home"><span><img src='images\uofu.png' height='50' width='50'></span></a>
 		</div>
 		<div class="collapse navbar-collapse" id="upnavbar">
 		  <ul class="nav navbar-nav navbar-right">

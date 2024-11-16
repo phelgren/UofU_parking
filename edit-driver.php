@@ -62,7 +62,7 @@ _END;
                                 if(in_array('admin',$_SESSION['roles'])){
                                 echo <<<_END
                                     <div class="col-md-3">
-                                        <a href="delete-driver.php" class="btn btn-info" role="button">Delete this driver</a>
+                                        <a href="delete-driver.php?did=$driver[driver_id]" class="btn btn-info" role="button">Delete this driver</a>
                                     </div>
                                 _END;
                                 }

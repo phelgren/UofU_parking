@@ -1,16 +1,15 @@
 <?php 
+require_once 'dbinfo.php';
+
 // This is all very similar to Users since a Driver == User
 function getDrivers($onedriver,$did){
 
-$hn='localhost:3306';
-$db='parking';
-$un='root';
-$pw='';
-//require_once 'dbinfo.php';
+    global $hn,$db,$un,$pw;
 
 $conn = new mysqli($hn, $un, $pw, $db);
 
 if ($conn->connect_error) die("Fatal Error");
+
 $query = "";
 
 // So, if the driver ID is empty follow the list logic
@@ -22,7 +21,6 @@ if(empty($did)){
 }
 else // must be a selected driver
     $query = "select * from users where driver_id = '$did'";
-
 
 $result = $conn->query($query);
 if (!$result) die ($query->error);
@@ -45,11 +43,13 @@ if (isset($_POST['update'])){
     $pwd = mysql_entities_fix_string($conn,$_POST['password']);
     $address = mysql_entities_fix_string($conn,$_POST['address']);
     $dtype = mysql_entities_fix_string($conn,$_POST['dtype']);
-  
     $token = password_hash($pwd,PASSWORD_DEFAULT);
-  
-    update_driver($conn, $firstname, $lastname, $username, $token, $email, $dtype, $address,$did);
-  
+
+    if(!empty($pwd)) // They can leave it blank if they don't want to change it
+        update_driver_with_password($conn, $firstname, $lastname, $username, $token, $email, $dtype, $address,$did);
+    else 
+        update_driver_no_password($conn, $firstname, $lastname, $username, $email, $dtype, $address,$did);
+
     header("Location: list-drivers.php");
   
   }
@@ -72,9 +72,18 @@ if (isset($_POST['update'])){
   
   }
 
-  function update_driver($conn, $firstname, $lastname, $username, $token, $email, $driver, $address, $did){
+  function update_driver_with_password($conn, $firstname, $lastname, $username, $token, $email, $driver, $address, $did){
 	//code to add user here
 	$query = "update users set firstname = '$firstname', lastname = '$lastname', username='$username', password = '$token',
+     email='$email', driver_type = '$driver', address = '$address' where driver_id = $did";
+
+	$result = $conn->query($query);
+	if(!$result) die($conn->error);
+}
+
+function update_driver_no_password($conn, $firstname, $lastname, $username, $email, $driver, $address, $did){
+	//code to add user here
+	$query = "update users set firstname = '$firstname', lastname = '$lastname', username='$username',
      email='$email', driver_type = '$driver', address = '$address' where driver_id = $did";
 
 	$result = $conn->query($query);

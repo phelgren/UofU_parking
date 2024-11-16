@@ -6,7 +6,6 @@ if($conn->connect_error) die($conn->connect_error);
 
 // Add user function
 
-
 function add_user($conn, $firstname, $lastname, $username, $token, $email, $driver, $address){
 	//code to add user here
 	$query = "insert into users(firstname, lastname, username, password, email, driver_type, address) 
@@ -15,6 +14,5 @@ function add_user($conn, $firstname, $lastname, $username, $token, $email, $driv
 	$result = $conn->query($query);
 	if(!$result) die($conn->error);
 }
-
 
 ?>
