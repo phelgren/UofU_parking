@@ -1,8 +1,7 @@
 <?php
 require_once 'utilities.php';
 
-
-$conn = new mysqli($hn, $un, $pw, $db);
+//$conn = new mysqli($hn, $un, $pw, $db);
 if($conn->connect_error) die($conn->connect_error);
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -36,7 +35,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 		$_SESSION['user'] = $user; // and instance of the class
 		$user_roles = $user->getRoles();
 		$_SESSION['roles'] = $user_roles;
-		//echo "<a href='..\list-drivers.php'> Continue </a>";
+		// Since all is well lets flag us as logged in
+		
 		header("Location: ..\list-drivers.php");
 	}
 	else

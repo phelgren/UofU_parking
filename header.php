@@ -19,8 +19,12 @@ require_once 'authx\utilities.php';
 		</div>
 		<div class="collapse navbar-collapse" id="upnavbar">
 		  <ul class="nav navbar-nav navbar-right">
-			<li><a href="#about">ABOUT</a></li>
-			<li><a href="login.php">LOGIN</a></li>
+		  <?php
+			if(isset($_SESSION['username']))
+				echo '<li><a href="logout.php">LOGOUT</a></li>';
+			else
+				echo '<li><a href="login.php">LOGIN</a></li>';
+			?>
 		  </ul>
 		</div>
 	  </div>

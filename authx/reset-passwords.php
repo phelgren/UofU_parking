@@ -3,7 +3,7 @@ require_once 'dbinfo.php';
 
 updatePwd('pjones','acrobat');
 updatePwd('bsmith','mysecret');
-updatePwd('phelgren','pass123');
+updatePwd('phelgren','pass123');  //no sweat Github, this is a demo...
 
 function updatePwd($username,$pwd){
    GLOBAL $hn,$db,$un,$pw;

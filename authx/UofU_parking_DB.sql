@@ -1,23 +1,35 @@
 --Table Creations
---driver
-DROP TABLE IF EXISTS Driver
-CREATE TABLE Driver (
-    DRIVER_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Type VARCHAR(50),
-    First VARCHAR(50),
-    Last VARCHAR(50),
-    Address VARCHAR(255)
-);
+-- Start with Users (the same as drivers)
+create table if not exists users(
+    driver_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	firstname varchar(128) not null,
+	lastname varchar(128) not null,
+	username varchar(128) not null unique,
+	password varchar(128) not null,
+	email varchar(128) not null,
+	driver_type varchar(16) not null,
+	address varchar(128)
+)ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3;
 
-INSERT INTO DRIVER (DRIVER_ID, Type, First, Last, Address) VALUES
-(1, 'Student', 'John', 'Doe', '123 Main St, Salt Lake City, UT'),
-(2, 'Faculty', 'Jane', 'Smith', '456 Oak St, Provo, UT'),
-(3, 'Guest', 'Mike', 'Johnson', '789 Pine St, Ogden, UT'),
-(4, 'Student', 'Emily', 'Brown', '101 Maple Ave, Logan, UT'),
-(5, 'Faculty', 'Sarah', 'Davis', '202 Birch Rd, St. George, UT');
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL,
+  `role` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `username`, `role`) VALUES
+(1, 'bsmith', 'student'),
+(2, 'pjones', 'faculty'),
+(3, 'pjones', 'admin');
+
 
 --vehicle 
-DROP TABLE IF EXISTS Vehicle
+DROP TABLE IF EXISTS Vehicle;
 CREATE TABLE Vehicle (
     VEHICLE_ID INT AUTO_INCREMENT PRIMARY KEY,
     DRIVER_ID INT,
@@ -27,19 +39,20 @@ CREATE TABLE Vehicle (
     Color VARCHAR(20),
     Year YEAR,
     VIOLATION_ID INT,
-    FOREIGN KEY (DRIVER_ID) REFERENCES Driver(DRIVER_ID),
+    FOREIGN KEY (DRIVER_ID) REFERENCES Users(DRIVER_ID),
     FOREIGN KEY (VIOLATION_ID) REFERENCES Violation(VIOLATION_ID)
 );
 
-INSERT INTO VEHICLE (VEHICLE_ID, DRIVER_ID, License_Plate, Make, Model, Color, Year, VIOLATION_ID) VALUES
+INSERT INTO VEHICLE (VEHICLE_ID, DRIVER_ID, License_Plate, Make, Model, Color, Year, VIOLATION_ID)
+VALUES
 (1, 1, 'ZL1234', 'Toyota', 'Corolla', 'Red', 2015, NULL),
 (2, 2, 'HY5678', 'Honda', 'Civic', 'Blue', 2018, 1),
-(3, 3, 'BR9101', 'Ford', 'Focus', 'Black', 2019, NULL),
+(3, 2, 'BR9101', 'Ford', 'Focus', 'Black', 2019, NULL),
 (4, 4, 'KT1123', 'Chevy', 'Malibu', 'White', 2020, 2),
-(5, 5, 'UE1415', 'Nissan', 'Altima', 'Grey', 2017, NULL);
+(5, 4, 'UE1415', 'Nissan', 'Altima', 'Grey', 2017, NULL);
 
 --Permit
-DROP TABLE IF EXISTS Permit
+DROP TABLE IF EXISTS Permit;
 CREATE TABLE Permit (
     PERMIT_ID INT AUTO_INCREMENT PRIMARY KEY,
     Permit_Type VARCHAR(50),
@@ -57,12 +70,12 @@ CREATE TABLE Permit (
 INSERT INTO PERMIT (PERMIT_ID, Permit_Type, VEHICLE_ID, Purchase_date, Expiry_date, Cost, DRIVER_ID, PAYMENT_ID) VALUES
 (1, 'Annual', 1, '2023-01-01', '2024-01-01', 200.00, 1, 5),
 (2, 'Semester', 2, '2023-08-15', '2024-01-15', 150.00, 2, 1),
-(3, 'Monthly', 3, '2023-09-01', '2023-10-01', 50.00, 3, 2),
+(3, 'Monthly', 3, '2023-09-01', '2023-10-01', 50.00, 2, 2),
 (4, 'Annual', 4, '2022-05-10', '2023-05-10', 200.00, 4, 4),
-(5, 'Semester', 5, '2023-03-15', '2023-09-15', 150.00, 5, 3);
+(5, 'Semester', 5, '2023-03-15', '2023-09-15', 150.00, 4, 3);
 
 --Payment
-DROP TABLE IF EXISTS Payment
+DROP TABLE IF EXISTS Payment;
 CREATE TABLE Payment (
     PAYMENT_ID INT AUTO_INCREMENT PRIMARY KEY,
     Amount DECIMAL(10, 2),
@@ -81,18 +94,25 @@ INSERT INTO PAYMENT (PAYMENT_ID, Amount, Credit_card_No, Check_no, Cash, Date) V
 
 
 --Violation	
-DROP TABLE IF EXISTS Violation
+DROP TABLE IF EXISTS Violation;
 CREATE TABLE Violation (
     VIOLATION_ID INT AUTO_INCREMENT PRIMARY KEY,
     Violation_type VARCHAR(50),
     Datetime DATETIME,
     VIOLATION_TYPE_ID INT,
     PAYMENT_ID INT,
-    FOREIGN KEY (VIOLATION_TYPE_ID) REFERENCES Violation_Type(VIOLATION_TYPE_ID),
     FOREIGN KEY (PAYMENT_ID) REFERENCES Payment(PAYMENT_ID)
 );
+
+INSERT INTO violation (VIOLATION_ID,violation_type,Datetime,VIOLATION_TYPE_ID,PAYMENT_ID) VALUES
+(1, 'Meter Violation','2023-01-15',1,1),
+(2, 'No Permit','2024-01-15',2,2),
+(3, 'No Permit','2023-01-15',2,3),
+(4, 'Lot Violation','2024-11-15',3,4),
+(5, 'Meter Violation','2023-01-15',1,5);
+
 --Parking Lot
-DROP TABLE IF EXISTS Parking_Lot
+DROP TABLE IF EXISTS Parking_Lot;
 CREATE TABLE Parking_Lot (
     LOT_ID INT AUTO_INCREMENT PRIMARY KEY,
     Permit_type VARCHAR(50),
@@ -100,7 +120,7 @@ CREATE TABLE Parking_Lot (
     Capacity INT
 );
 --Parking SPACE
- DROP TABLE IF EXISTS Parking_Space
+ DROP TABLE IF EXISTS Parking_Space;
 CREATE TABLE Parking_Space (
     SPACE_ID INT AUTO_INCREMENT PRIMARY KEY,
     Field VARCHAR(50),

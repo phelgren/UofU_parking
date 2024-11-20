@@ -4,11 +4,12 @@ require_once 'dbinfo.php';
 // This is all very similar to Users since a Driver == User
 function getDrivers($onedriver,$did){
 
-    global $hn,$db,$un,$pw;
+//    global $hn,$db,$un,$pw;
 
-$conn = new mysqli($hn, $un, $pw, $db);
+//$conn = new mysqli($hn, $un, $pw, $db);
+global $conn;
 
-if ($conn->connect_error) die("Fatal Error");
+//if ($conn->connect_error) die("Fatal Error");
 
 $query = "";
 

@@ -3,7 +3,7 @@
 require_once 'dbinfo.php';
 require_once 'user-io.php';
 
-$conn = new mysqli($hn, $un, $pw, $db);
+//$conn = new mysqli($hn, $un, $pw, $db);
 if($conn->connect_error) die($conn->connect_error);
 
 //code for create user table here
