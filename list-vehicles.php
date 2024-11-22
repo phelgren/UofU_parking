@@ -17,11 +17,11 @@ if(!isAdmin($conn,$username))
 
 if (isset($_GET['delete_id'])) {
     $delete_id = intval(mysql_entities_fix_string($conn,$_GET['delete_id']));
-    $delete_sql = "DELETE FROM Permit WHERE PERMIT_ID = ?";
+    $delete_sql = "DELETE FROM vehicle WHERE VEHICLE_ID = ?";
     $stmt = $conn->prepare($delete_sql);
     $stmt->bind_param("i", $delete_id);
     if ($stmt->execute()) {
-        echo "<p>Permit ID $delete_id deleted successfully.</p>";
+        echo "<p>Vehicle ID $delete_id deleted successfully.</p>";
     } else {
         echo "<p>Error deleting permit: " . $conn->error . "</p>";
     }
@@ -29,46 +29,38 @@ if (isset($_GET['delete_id'])) {
 
 if($did == '0')
         $sql = "SELECT 
-                Permit.PERMIT_ID, 
-                Permit.Permit_Type, 
-                Permit.Purchase_date, 
-                Permit.Expiry_date, 
-                Permit.Cost, 
                 users.firstname, 
                 users.lastname, 
-                users.driver_id,
+                Vehicle.VEHICLE_ID, 
                 Vehicle.License_Plate, 
                 Vehicle.Make, 
-                Vehicle.Model 
-            FROM Permit
-            JOIN users ON Permit.DRIVER_ID = users.DRIVER_ID
-            JOIN Vehicle ON Permit.VEHICLE_ID = Vehicle.VEHICLE_ID
-            ORDER BY Permit.PERMIT_ID";
+                Vehicle.Model,
+                Vehicle.Color, 
+                Vehicle.Year 
+            FROM users
+            JOIN Vehicle ON users.DRIVER_ID = Vehicle.DRIVER_ID
+            ORDER BY users.lastname,users.firstname,vehicle.make,vehicle.model";
 else
         $sql = "SELECT 
-            Permit.PERMIT_ID, 
-            Permit.Permit_Type, 
-            Permit.Purchase_date, 
-            Permit.Expiry_date, 
-            Permit.Cost, 
             users.firstname, 
             users.lastname, 
-            users.driver_id,
+            Vehicle.VEHICLE_ID, 
             Vehicle.License_Plate, 
             Vehicle.Make, 
-            Vehicle.Model 
-            FROM Permit
-            JOIN users ON Permit.DRIVER_ID = users.DRIVER_ID
-            JOIN Vehicle ON Permit.VEHICLE_ID = Vehicle.VEHICLE_ID
-            WHERE users.driver_id = $did 
-            ORDER BY Permit.PERMIT_ID";
+            Vehicle.Model,
+            Vehicle.Color, 
+            Vehicle.Year 
+            FROM users
+            JOIN Vehicle ON users.DRIVER_ID = Vehicle.DRIVER_ID
+            WHERE Users.driver_id = $did 
+            ORDER BY users.lastname,users.firstname,vehicle.make,vehicle.model";
 
 $result = $conn->query($sql);
 
 ?>
 <div class="container">
 <div class="row justify-content-center">
-<h2>List Permits</h2>
+<h2>List Vehicles</h2>
 <div class="col-md-8">
     <div class="card">
 
@@ -77,31 +69,25 @@ $result = $conn->query($sql);
     <?php if ($result && $result->num_rows > 0): ?>
         <table border="1">
             <tr>
-                <th>Permit ID</th>
-                <th>Permit Type</th>
-                <th>Purchase Date</th>
-                <th>Expiry Date</th>
-                <th>Cost ($)</th>
                 <th>Driver Name</th>
                 <th>License Plate</th>
                 <th>Vehicle Make</th>
                 <th>Vehicle Model</th>
+                <th>Vehicle Color</th>
+                <th>Vehicle Year</th>
                 <th>Actions</th>
             </tr>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo $row['PERMIT_ID']; ?></td>
-                    <td><?php echo $row['Permit_Type']; ?></td>
-                    <td><?php echo $row['Purchase_date']; ?></td>
-                    <td><?php echo $row['Expiry_date']; ?></td>
-                    <td><?php echo $row['Cost']; ?></td>
                     <td><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></td>
                     <td><?php echo $row['License_Plate']; ?></td>
                     <td><?php echo $row['Make']; ?></td>
                     <td><?php echo $row['Model']; ?></td>
+                    <td><?php echo $row['Color']; ?></td>
+                    <td><?php echo $row['Year']; ?></td>
                     <td>
-                        <a href="edit-permit.php?edit_id=<?php echo $row['PERMIT_ID']; ?>&name=<?php echo $row['firstname'] .'%20'. $row['lastname']; ?>&driverid=<?php echo $row['driver_id']; ?>">Edit</a> |
-                        <a href="list-permit.php?delete_id=<?php echo $row['PERMIT_ID']; ?>" onclick="return confirm('Are you sure you want to delete this permit?');">Delete</a>
+                        <a href="edit-vehicle.php?edit_id=<?php echo $row['VEHICLE_ID']; ?>">Edit</a> |
+                        <a href="list-vehicle.php?delete_id=<?php echo $row['VEHICLE_ID']; ?>" onclick="return confirm('Are you sure you want to delete this vehicle?');">Delete</a>
                     </td>
                 </tr>
             <?php endwhile; ?>
@@ -109,11 +95,11 @@ $result = $conn->query($sql);
         </div>
 
     <?php else: ?>
-        <p>No permits found.</p>
+        <p>No vehicles found.</p>
     <?php endif; ?>
 
     <br>
-    <a href="add-permit.php"><button>Add Permit</button></a>
+    <a href="add-vehicle.php"><button>Add Vehicle</button></a>
 
     <?php 
     $conn->close();

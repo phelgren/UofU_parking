@@ -2,8 +2,6 @@
 require_once 'dbinfo.php';
 
 global $conn;
-//$conn = new mysqli($hn, $un, $pw, $db);
-//if($conn->connect_error) die($conn->connect_error);
 
 // Add user function
 

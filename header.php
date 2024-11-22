@@ -1,5 +1,5 @@
 <?php
-require_once 'authx\utilities.php';
+require_once 'authx/utilities.php';
 
 ?>
 
@@ -20,8 +20,14 @@ require_once 'authx\utilities.php';
 		<div class="collapse navbar-collapse" id="upnavbar">
 		  <ul class="nav navbar-nav navbar-right">
 		  <?php
-			if(isset($_SESSION['username']))
+		  		echo '<li><a href="parking.php">ABOUT US</a></li>';
+			if(isset($_SESSION['username'])){
+				// Since we are logged in, let's add the other menu options
+				echo '<li><a href="list-drivers.php">DRIVERS</a></li>';
+				echo '<li><a href="list-permit.php">PERMITS</a></li>';
+				echo '<li><a href="list-vehicles.php">VEHICLES</a></li>';
 				echo '<li><a href="logout.php">LOGOUT</a></li>';
+			}
 			else
 				echo '<li><a href="login.php">LOGIN</a></li>';
 			?>

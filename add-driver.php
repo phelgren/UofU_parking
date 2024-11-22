@@ -1,11 +1,12 @@
 <?php
   include('header.php');
   $page_roles = array('student','faculty','admin');
-  require_once 'authx\checksession.php';
-  require_once 'authx\driver-io.php';
-  require_once 'authx\roletypes.php';
-
-    $username = $_SESSION['username'];
+  require_once 'authx/checksession.php';
+  require_once 'authx/driver-io.php';
+  require_once 'authx/roletypes.php';
+  require_once 'authx/sanitize.php';
+  
+    $username = mysql_entities_fix_string($conn,$_SESSION['username']);
     $result = getDrivers($username,'');
 
     $driver = $result->fetch_array(MYSQLI_ASSOC);
@@ -13,7 +14,7 @@
     $typelist = listtypes($role);
     $hidden = 'hidden';
 
-    if(in_array('admin',$_SESSION['roles']))
+    if(isAdmin($conn,$username))
         $hidden = '';
     
 echo <<<_END
@@ -67,7 +68,7 @@ _END;
                                     </button>
                                 </div>      
 
-                                <input type='hidden' name='add' value='yes'>
+                                <input type='hidden' name='adddriver' value='yes'>
                             
                         </form>
                     </div>

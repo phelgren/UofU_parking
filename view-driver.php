@@ -1,13 +1,19 @@
 <?php
   include('header.php');
   $page_roles = array('student','faculty','admin');
-  require_once 'authx\checksession.php';
-  require_once 'authx\driver-io.php';
-    require_once 'authx\roletypes.php';
+  require_once 'authx/checksession.php';
+  require_once 'authx/driver-io.php';
+  require_once 'authx/vehicle-io.php';
+  require_once 'authx/permit-io.php';
+    require_once 'authx/roletypes.php';
 
     $driver_id = $_GET['did'];
 
     $result = getDrivers('',$driver_id);
+
+    $vehicleList = getVehiclesForDriver($driver_id);
+
+    $permitList = getPermitsForDriver($driver_id);
 
     $driver = $result->fetch_array(MYSQLI_ASSOC);
     $role = $driver['driver_type'];
@@ -58,13 +64,13 @@ _END;
 
                                 if(in_array('admin',$_SESSION['roles'])){
                                 echo <<<_END
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <a href="delete-driver.php?did=$driver[driver_id]" class="btn btn-info" role="button">Delete this driver</a>
                                     </div>
                                 _END;
                                 }
                                 echo <<<_END
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <button type="submit" class="btn btn-primary">
                                         Return
                                     </button>
@@ -74,7 +80,33 @@ _END;
                     </div>
                 </div>
             </div>
-        </div>
+
+                <div class="col-md-4">
+                        <div class="card">
+                        <div class="card-header"><strong>Vehicles for $driver[firstname] $driver[lastname] </strong></div>
+                        <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                        <thead><tr><th> Vehicle Make</th><th> Vehicle Model</th><th> License plate</th><tr></thead>
+                        $vehicleList
+                        </table>
+                        </div>
+                        </div>
+
+                </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                        <div class="card-header"><strong>Permits for $driver[firstname] $driver[lastname] </strong></div>
+                        <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                        <thead><tr><th> Permit Type</th><th> Expiration date</th><th> License plate</th><tr></thead>
+                        $permitList
+                        </table>
+                        </div>
+                        </div>
+                </div>
+
+            </div>
+
 _END;
 
   include('footer.php');

@@ -1,11 +1,12 @@
 <?php
   include('header.php');
   $page_roles = array('student','faculty','admin');
-  require_once 'authx\checksession.php';
-  require_once 'authx\driver-io.php';
-  require_once 'authx\roletypes.php';
+  require_once 'authx/checksession.php';
+  require_once 'authx/driver-io.php';
+  require_once 'authx/roletypes.php';
+  require_once 'authx/sanitize.php';
 
-    $driver_id = $_GET['did'];
+    $driver_id = mysql_entities_fix_string($conn,$_GET['did']);
     $result = getDrivers('',$driver_id);
 
     $driver = $result->fetch_array(MYSQLI_ASSOC);
@@ -13,7 +14,8 @@
     $typelist = listtypes($role);
     $hidden = 'hidden';
 
-    if(in_array('admin',$_SESSION['roles']))
+    $uname = mysql_entities_fix_string($conn,$_SESSION['username']);
+    if(isAdmin($conn,$uname))
         $hidden = '';
     
 echo <<<_END
@@ -59,7 +61,7 @@ echo <<<_END
                                     </div>
 _END;
 
-                                if(in_array('admin',$_SESSION['roles'])){
+                                if(isAdmin($conn,$uname)){
                                 echo <<<_END
                                     <div class="col-md-3">
                                         <a href="delete-driver.php?did=$driver[driver_id]" class="btn btn-info" role="button">Delete this driver</a>
@@ -73,7 +75,7 @@ _END;
                                     </button>
                                 </div>      
                                 <input type='hidden' name='did' value=$driver[driver_id] >
-                                <input type='hidden' name='update' value='yes'>
+                                <input type='hidden' name='updatedriver' value='yes'>
                             
                         </form>
                     </div>

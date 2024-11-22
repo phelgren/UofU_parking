@@ -1,8 +1,9 @@
 <?php
 require_once 'utilities.php';
 
+
 //$conn = new mysqli($hn, $un, $pw, $db);
-if($conn->connect_error) die($conn->connect_error);
+//if($conn->connect_error) die($conn->connect_error);
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
 	
@@ -11,9 +12,14 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	$tmp_password = mysql_entities_fix_string($conn, $_POST['password']);
 
     //get password from DB w/ SQL
-	$query = "SELECT password FROM users WHERE username = '$tmp_username'";
+	$query = "SELECT password FROM users WHERE username = ?";
+	
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $tmp_username);
+    $stmt->execute();
 
-    $result = $conn->query($query); 
+	$result = $stmt->get_result();
+	
 	if(!$result) die($conn->error);
 	
 	$rows = $result->num_rows;

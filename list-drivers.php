@@ -1,11 +1,17 @@
 <?php
   include('header.php');
   $page_roles = array('admin','faculty','student');
-  require_once 'authx\checksession.php';
-  require_once 'authx\driver-io.php';
+  require_once 'authx/checksession.php';
+  require_once 'authx/driver-io.php';
+  require_once 'authx/sanitize.php';
 
-  if(in_array('admin',$_SESSION['roles'])){
-    echo <<<_END
+  $username = mysql_entities_fix_string($conn,$_SESSION['username']);
+
+  $admin=0;
+
+  if(isAdmin($conn,$username)){
+    $admin=1;
+  echo <<<_END
       <div class="container">
       <a href="add-driver.php" class="btn btn-info" role="button">Add a new driver</a>
     _END;
@@ -21,10 +27,11 @@ _END;
 
 $result = '';
 // So, admin folks have access to all drivers, but student, faculty, and guests only see themselves
-if(in_array('admin',$_SESSION['roles']))
+
+if($admin != 0 )
     $result = getDrivers('','');
   else
-    $result = getDrivers($_SESSION['username'],'');
+    $result = getDrivers($username,'');
 
 $rows = $result->num_rows;
 

@@ -1,7 +1,6 @@
 <?php
-require_once 'user.php';
 
-//session_start();
+require_once 'user.php';
 
 if(!isset($_SESSION['user'])){
 	// Head to login

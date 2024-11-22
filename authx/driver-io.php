@@ -1,29 +1,42 @@
 <?php 
-require_once 'dbinfo.php';
+require_once 'utilities.php';
+require_once 'sanitize.php';
 
 // This is all very similar to Users since a Driver == User
 function getDrivers($onedriver,$did){
 
-//    global $hn,$db,$un,$pw;
-
-//$conn = new mysqli($hn, $un, $pw, $db);
 global $conn;
-
-//if ($conn->connect_error) die("Fatal Error");
 
 $query = "";
 
 // So, if the driver ID is empty follow the list logic
 if(empty($did)){
-    if(empty($onedriver))
+
+    if(empty($onedriver)){
+
         $query  = "SELECT * from users";
-    else
-        $query = "select * from users where username = '$onedriver'";
+    }
+    else{
+
+        $query = "select * from users where username = ?";
+    }
 }
 else // must be a selected driver
-    $query = "select * from users where driver_id = '$did'";
+    $query = "select * from users where driver_id = ?";
 
-$result = $conn->query($query);
+    $stmt = $conn->prepare($query);
+    if(empty($did)){
+        if(empty(!$onedriver))
+            $stmt->bind_param("s", $onedriver);
+    }
+    else
+    {
+        $stmt->bind_param("s", $did);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
 if (!$result) die ($query->error);
 
 return $result;
@@ -33,7 +46,7 @@ $conn->close();
 
 }
 
-if (isset($_POST['update'])){
+if (isset($_POST['updatedriver'])){
 
     $did = $_POST['did'];  //Driver ID
 
@@ -55,7 +68,7 @@ if (isset($_POST['update'])){
   
   }
 
-  if (isset($_POST['add'])){
+  if (isset($_POST['adddriver'])){
 
     $firstname = mysql_entities_fix_string($conn,$_POST['first-name']);
     $lastname = mysql_entities_fix_string($conn,$_POST['last-name']);
