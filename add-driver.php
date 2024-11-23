@@ -1,6 +1,6 @@
 <?php
   include('header.php');
-  $page_roles = array('student','faculty','admin');
+  $page_roles = array('admin');
   require_once 'authx/checksession.php';
   require_once 'authx/driver-io.php';
   require_once 'authx/roletypes.php';

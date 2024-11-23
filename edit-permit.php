@@ -34,8 +34,9 @@ if (isset($_GET['edit_id'])) {
 if (isset($_POST['updatepermit'])){
 
     $vehicle_id = mysql_entities_fix_string($conn,$_POST['vehicle_id']);
+    $permit_id = mysql_entities_fix_string($conn,$_POST['permit_id']);
 
-    $sql = "update Permit set VEHICLE_ID = $vehicle_id";
+    $sql = "update Permit set VEHICLE_ID = $vehicle_id where PERMIT_ID = $permit_id";
 
     $stmt = $conn->prepare($sql);
     $stmt->execute();

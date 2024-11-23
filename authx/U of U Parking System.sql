@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS Payment;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS users;
 
--- Create Users Table
+-- Create Users Table Users == Drivers
 CREATE TABLE IF NOT EXISTS users (
     driver_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     firstname VARCHAR(128) NOT NULL,

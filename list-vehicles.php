@@ -17,14 +17,24 @@ if(!isAdmin($conn,$username))
 
 if (isset($_GET['delete_id'])) {
     $delete_id = intval(mysql_entities_fix_string($conn,$_GET['delete_id']));
+    // Complication: Vehicle is a foreign key to permits 
+    // so delete the permits associated with the vehicle and then delete the vehicle
+
+    $delete_sql = "DELETE FROM permit WHERE VEHICLE_ID = ?";
+    $stmt = $conn->prepare($delete_sql);
+    $stmt->bind_param("i", $delete_id);
+    $stmt->execute();
+
     $delete_sql = "DELETE FROM vehicle WHERE VEHICLE_ID = ?";
     $stmt = $conn->prepare($delete_sql);
     $stmt->bind_param("i", $delete_id);
+
     if ($stmt->execute()) {
         echo "<p>Vehicle ID $delete_id deleted successfully.</p>";
     } else {
         echo "<p>Error deleting permit: " . $conn->error . "</p>";
     }
+    header("Location: list-vehicles.php");
 }
 
 if($did == '0')
