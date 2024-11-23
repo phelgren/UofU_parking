@@ -33,6 +33,7 @@ require_once 'authx/utilities.php';
 			?>
 		  </ul>
 		</div>
+
 	  </div>
 	</nav>
 
@@ -40,4 +41,5 @@ require_once 'authx/utilities.php';
     <div class="jumbotron text-center">
         <h1>U of U Parking System</h1>
         <p> Put 'er there...'.</p>
+		<?php if(isset($_SESSION['displayName'])) echo "<h3 class='text-left'> Logged in as ". $_SESSION['displayName'] ."</h3>";  ?>
     </div>

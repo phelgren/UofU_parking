@@ -60,16 +60,6 @@ echo <<<_END
                                             $typelist
                                         </select>
                                     </div>
-_END;
-
-                                if(in_array('admin',$_SESSION['roles'])){
-                                echo <<<_END
-                                    <div class="col-md-4">
-                                        <a href="delete-driver.php?did=$driver[driver_id]" class="btn btn-info" role="button">Delete this driver</a>
-                                    </div>
-                                _END;
-                                }
-                                echo <<<_END
                                 <div class="col-md-4">
                                     <button type="submit" class="btn btn-primary">
                                         Return

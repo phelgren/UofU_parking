@@ -67,7 +67,7 @@ $result = $conn->query($sql);
         <div class="card-body">
     
     <?php if ($result && $result->num_rows > 0): ?>
-        <table border="1">
+        <table class="table table-bordered table-striped">
             <tr>
                 <th>Driver Name</th>
                 <th>License Plate</th>
@@ -79,15 +79,16 @@ $result = $conn->query($sql);
             </tr>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></td>
+                    <td class="col-sm-3"><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></td>
                     <td><?php echo $row['License_Plate']; ?></td>
                     <td><?php echo $row['Make']; ?></td>
                     <td><?php echo $row['Model']; ?></td>
                     <td><?php echo $row['Color']; ?></td>
                     <td><?php echo $row['Year']; ?></td>
-                    <td>
+                    <td class="col-sm-3">
                         <a href="edit-vehicle.php?edit_id=<?php echo $row['VEHICLE_ID']; ?>">Edit</a> |
-                        <a href="list-vehicle.php?delete_id=<?php echo $row['VEHICLE_ID']; ?>" onclick="return confirm('Are you sure you want to delete this vehicle?');">Delete</a>
+                        <a href="edit-vehicle.php?edit_id=<?php echo $row['VEHICLE_ID']; ?>&view='yes'">View</a> |
+                        <a href="list-vehicles.php?delete_id=<?php echo $row['VEHICLE_ID']; ?>" onclick="return confirm('Are you sure you want to delete this vehicle?');">Delete</a>
                     </td>
                 </tr>
             <?php endwhile; ?>

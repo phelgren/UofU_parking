@@ -5,6 +5,10 @@ require_once 'authx/sanitize.php';
 
 global $conn;
 
+$disabled = '';
+if(isset($_GET['view']))
+    $disabled = 'disabled';
+
 if(isset($_GET['name']))
     $name = $_GET['name'];
 
@@ -55,14 +59,15 @@ if (isset($_POST['updatepermit'])){
 
         <div class="card-body">
             Driver <?php echo $name ?>
-
-        <p><h3><strong style="color:red;"> NOTE: You can only change the vehicle for a permit.  If you need a different permit type, add a new permit and delete this one. </strong></h3></p>
+        <?php if(empty($disabled)) 
+        echo "<p><h3><strong style='color:red;'> NOTE: You can only change the vehicle for a permit.  If you need a different permit type, add a new permit and delete this one. </strong></h3></p>"
+        ?>
 
             <form method="post" action="edit-permit.php?edit_id=<?php echo $permit['PERMIT_ID']; ?>">
                 <input type="hidden" name="permit_id" value="<?php echo $permit['PERMIT_ID']; ?>">
                 
                 <label for="vehicle_id">Vehicle:</label>
-                            <select id="vehicle_id" name="vehicle_id" required>
+                            <select id="vehicle_id" name="vehicle_id" <?php echo $disabled ?> required>
                                 <option value="">Select Vehicle</option>
                                 <?php while ($vehicle = $vehicles->fetch_assoc()): ?>
                                     <option value="<?php echo $vehicle['VEHICLE_ID']; ?>">
@@ -71,19 +76,20 @@ if (isset($_POST['updatepermit'])){
                                 <?php endwhile; ?>
                             </select><br>
                 <label for="permit_type">Permit Type:</label>
-                <input type="text" name="permit_type" id="permit_type" value="<?php echo $permit['Permit_Type']; ?>" disabled><br>
-                Cost: <input type="text" name="cost" id="cost" value="<?php echo $permit['Cost']; ?>" disabled><br>
-                Purchase Date: <input type="date" name="purchase_date" id="purchase_date" value="<?php echo $permit['Purchase_date']; ?>" disabled><br>
-                Expiry Date: <input type="date" name="expiry_date" id="expiry_date" value="<?php echo $permit['Expiry_date']; ?>" disabled><br>
-                <button type="submit">Update Permit</button>
+                <input type="text" name="permit_type" id="permit_type" <?php echo $disabled ?> value="<?php echo $permit['Permit_Type']; ?>" disabled><br>
+                Cost: <input type="text" name="cost" id="cost" <?php echo $disabled ?> value="<?php echo $permit['Cost']; ?>" disabled><br>
+                Purchase Date: <input type="date" name="purchase_date" id="purchase_date" <?php echo $disabled ?> value="<?php echo $permit['Purchase_date']; ?>" disabled><br>
+                Expiry Date: <input type="date" name="expiry_date" id="expiry_date" <?php echo $disabled ?> value="<?php echo $permit['Expiry_date']; ?>" disabled><br>
+
                 <input type='hidden' id='permitcost' name='permitcost' value="<?php echo $permit['Cost']; ?>">
                 <input type='hidden' id='selectedpermit' name='selectedpermit'>
                 <input type='hidden' id='updatepermit' name='updatepermit' value="yes">
 
+                <?php if(empty($disabled)) echo "<button type='submit'>Update Permit</button>" ?>
 
             </form>
-            <a href="list-permit.php"><button>Back to Permit List</button></a>
-        </div>
+
+            <a href='list-permit.php'><button>Back to Permit List</button></a>
     </div>
 </div>
 </div>

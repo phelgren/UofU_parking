@@ -69,19 +69,19 @@ $result = $conn->query($sql);
 <div class="container">
 <div class="row justify-content-center">
 <h2>List Permits</h2>
-<div class="col-md-8">
+<div class="col-md-12">
     <div class="card">
 
         <div class="card-body">
     
     <?php if ($result && $result->num_rows > 0): ?>
-        <table border="1">
+        <table class="table table-bordered table-striped">
             <tr>
                 <th>Permit ID</th>
                 <th>Permit Type</th>
                 <th>Purchase Date</th>
                 <th>Expiry Date</th>
-                <th>Cost ($)</th>
+                <th>Cost($)</th>
                 <th>Driver Name</th>
                 <th>License Plate</th>
                 <th>Vehicle Make</th>
@@ -91,16 +91,17 @@ $result = $conn->query($sql);
             <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $row['PERMIT_ID']; ?></td>
-                    <td><?php echo $row['Permit_Type']; ?></td>
-                    <td><?php echo $row['Purchase_date']; ?></td>
-                    <td><?php echo $row['Expiry_date']; ?></td>
+                    <td class="col-sm-2"><?php echo $row['Permit_Type']; ?></td>
+                    <td class='col-sm-2'><?php echo $row['Purchase_date']; ?></td>
+                    <td class='col-sm-2'><?php echo $row['Expiry_date']; ?></td>
                     <td><?php echo $row['Cost']; ?></td>
-                    <td><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></td>
+                    <td class='col-sm-3'><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></td>
                     <td><?php echo $row['License_Plate']; ?></td>
                     <td><?php echo $row['Make']; ?></td>
                     <td><?php echo $row['Model']; ?></td>
-                    <td>
+                    <td class='col-sm-3'>
                         <a href="edit-permit.php?edit_id=<?php echo $row['PERMIT_ID']; ?>&name=<?php echo $row['firstname'] .'%20'. $row['lastname']; ?>&driverid=<?php echo $row['driver_id']; ?>">Edit</a> |
+                        <a href="edit-permit.php?edit_id=<?php echo $row['PERMIT_ID']; ?>&name=<?php echo $row['firstname'] .'%20'. $row['lastname']; ?>&driverid=<?php echo $row['driver_id']; ?>&view=yes">View</a> |
                         <a href="list-permit.php?delete_id=<?php echo $row['PERMIT_ID']; ?>" onclick="return confirm('Are you sure you want to delete this permit?');">Delete</a>
                     </td>
                 </tr>

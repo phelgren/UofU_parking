@@ -41,6 +41,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 		$_SESSION['user'] = $user; // and instance of the class
 		$user_roles = $user->getRoles();
 		$_SESSION['roles'] = $user_roles;
+		$_SESSION['displayName'] = getDisplayName($tmp_username);
 		// Since all is well lets flag us as logged in
 		
 		header("Location: ..\list-drivers.php");

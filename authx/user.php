@@ -45,6 +45,18 @@ global $conn;
 
 }
 
+function getDisplayName($username){
+	global $conn;
+		$sql = "select concat(firstname,' ',lastname) as displayname from users where username= ?";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param("s", $username);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_assoc();
+		return $row['displayname'];
+	
+	}
+
 class User{
 	
 	public $username;

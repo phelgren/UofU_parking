@@ -4,6 +4,7 @@ $page_roles = array('student','faculty','admin');
 require_once 'authx/checksession.php';
 require_once 'authx/driver-io.php';
 require_once 'authx/sanitize.php';
+global $conn;
 
 $driver_id = mysql_entities_fix_string($conn,$_GET['did']);
 $result = getDrivers('',$driver_id);
@@ -20,7 +21,7 @@ echo <<<_END
             <h1><div class="card-header">DELETE driver information for $driver[firstname] $driver[lastname] </div></h1>
             <p><h3><strong style="color:red;"> NOTE: All permits, payments, vehicles and roles will be deleted with this driver/user </strong></h3></p>
             <div class="card-body"><br><br><br>
-            <form action="delete-driver.php" method="post">
+            <form action="delete-driver.php?did=$driver_id" method="post">
             <div class="col-md-3">
                 <button type="submit" class="btn btn-primary">
                     Delete this driver
@@ -29,8 +30,8 @@ echo <<<_END
             <div class="col-md-3">
                 <a href="list-drivers.php" class="btn btn-info" role="button">Cancel and return</a>
             </div>    
-            <input type='hidden' name='did' value=$driver[driver_id] >
-            <input type='hidden' name='delete' value='yes'>
+            <input type='hidden' name='did' id='did' value=$driver_id >
+            <input type='hidden' name='delete' id='delete' value='yes'>
 
             </form>
 
@@ -43,8 +44,8 @@ _END;
 
 if(isset($_POST['delete']))
 {
-    // Ok, now the complication is that a driver ID is a foriegn key for
-    // Permits and vehicles and permits have a foriegn key of payment so
+    // Ok, now the complication is that a driver ID is a foreign key for
+    // Permits and vehicles and permits have a foreign key of payment so
     // without a cascade delete easily handling things, we'll need to do it manually
     // Permits will cascade a delete to payments but the rest we'll need to navigate
     // Not a lot of error handling here

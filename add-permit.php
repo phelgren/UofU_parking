@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // So a couple of wrinkles here  if there is just a solo user, not an admin, you can only select stuff related to yourself.
+// Further wrinkle, the vehicle list should be filtered by the driver selected
 
 if($did == '0'){
     $vehicles = $conn->query("SELECT VEHICLE_ID,Concat(License_Plate,'-',Make,'-',Model,'-',Color,'-', Year) as description FROM Vehicle");
@@ -96,6 +97,15 @@ else{
                                 <option value="Motorcycle,115.20">Motorcycle</option>                         
                         </select><br>
                         
+                        <label for="driver_id">Driver:</label>
+                            <select id="driver_id" name="driver_id" required>
+                                <option value="">Select Driver</option>
+                                <?php while ($driver = $drivers->fetch_assoc()): ?>
+                                    <option value="<?php echo $driver['DRIVER_ID']; ?>">
+                                        <?php echo $driver['DriverName']; ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select><br>
 
                             <label for="vehicle_id">Vehicle:</label>
                             <select id="vehicle_id" name="vehicle_id" required>
@@ -107,15 +117,6 @@ else{
                                 <?php endwhile; ?>
                             </select><br>
 
-                            <label for="driver_id">Driver:</label>
-                            <select id="driver_id" name="driver_id" required>
-                                <option value="">Select Driver</option>
-                                <?php while ($driver = $drivers->fetch_assoc()): ?>
-                                    <option value="<?php echo $driver['DRIVER_ID']; ?>">
-                                        <?php echo $driver['DriverName']; ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select><br>
 
                             <label for="purchase_date">Purchase Date:</label>
                             <input type="date" id="purchase_date" name="purchase_date" required><br>
