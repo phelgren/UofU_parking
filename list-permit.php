@@ -8,12 +8,23 @@ require_once 'authx/user.php';
 
 global $conn;
 $did = '0';
+$solo = "no";
 
 $username = $_SESSION['username'];
+
+if(isset($_GET['single']))
+    $solo = mysql_entities_fix_string($conn,$_GET['single']);
 
 if(!isAdmin($conn,$username))
     $did = getUserID($username);
 
+if(isset($_GET['single'])){
+    $solo = mysql_entities_fix_string($conn,$_GET['single']);
+
+if(isset($_GET['did'])) // passed in
+    $did = mysql_entities_fix_string($conn,$_GET['did']);
+
+}
 
 if (isset($_GET['delete_id'])) {
     $delete_id = intval(mysql_entities_fix_string($conn,$_GET['delete_id']));
@@ -116,7 +127,7 @@ $result = $conn->query($sql);
     <?php endif; ?>
 
     <br>
-    <a href="add-permit.php"><button>Add Permit</button></a>
+    <a href="add-permit.php"><button>Add Permit</button></a> <?php if($solo=="yes") echo "<a href='list-permit.php'><button>Back to Permit List</button></a>";?>
 
     <?php 
     $conn->close();

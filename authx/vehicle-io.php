@@ -3,12 +3,12 @@ require_once 'dbinfo.php';
 
 // Add user function
 
-function getVehiclesForDriver($d_id,$returnType){
+function getVehiclesForDriver($d_id){
 global $conn;
 
 $driver_id = mysql_entities_fix_string($conn,$d_id);
 
-$sql = "SELECT Vehicle.License_Plate, Vehicle.Make, Vehicle.Model,Concat(Vehicle.License_Plate,'-',Vehicle.Make,'-',Vehicle.Model,'-',Vehicle.Color,'-', Year) as description
+$sql = "SELECT Vehicle.License_Plate, Vehicle.Make, Vehicle.Model 
             FROM users 
             JOIN Vehicle ON users.driver_id = Vehicle.DRIVER_ID
             where users.driver_id = ? 
@@ -28,19 +28,9 @@ $sql = "SELECT Vehicle.License_Plate, Vehicle.Make, Vehicle.Model,Concat(Vehicle
             <tr><td colspan='3'><strong> No Vehicles found</strong><td></tr>
         </div>
 END;
-    if($result->num_rows>0){
+    if($result->num_rows>0)
         $content = "";
     
-        if (isset($returnType))
-            for ($row_no = $result->num_rows - 1; $row_no >= 0; $row_no--) {
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-
-                $content = $content . <<<END
-                <option value=$row[VEHICLE_ID]> $row[description] </option>
-        END;
-        }
-        else
-
         for ($row_no = $result->num_rows - 1; $row_no >= 0; $row_no--) {
             $row = $result->fetch_array(MYSQLI_ASSOC);
 
@@ -57,7 +47,6 @@ END;
     }
 
     return $content;
-}
 }
 
 ?>

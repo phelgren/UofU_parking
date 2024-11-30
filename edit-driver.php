@@ -89,7 +89,7 @@ _END;
             </div>
                             <div class="col-md-4">
                         <div class="card">
-                        <div class="card-header"><strong><a href="list-vehicles.php">Vehicles</a> for $driver[firstname] $driver[lastname] </strong></div>
+                        <div class="card-header"><strong><a href="list-vehicles.php?did=$driver[driver_id]&single=yes">Vehicles</a> for $driver[firstname] $driver[lastname] </strong></div>
                         <div class="card-body">
                         <table class="table table-bordered table-striped">
                         <thead><tr><th> Vehicle Make</th><th> Vehicle Model</th><th> License plate</th><tr></thead>
@@ -101,7 +101,7 @@ _END;
                 </div>
                     <div class="col-md-4">
                         <div class="card">
-                        <div class="card-header"><strong><a href="list-permit.php">Permits</a> for $driver[firstname] $driver[lastname] </strong></div>
+                        <div class="card-header"><strong><a href="list-permit.php?did=$driver[driver_id]&single=yes"">Permits</a> for $driver[firstname] $driver[lastname] </strong></div>
                         <div class="card-body">
                         <table class="table table-bordered table-striped">
                         <thead><tr><th> Permit Type</th><th> Expiration date</th><th> License plate</th><tr></thead>
