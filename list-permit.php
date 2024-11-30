@@ -39,7 +39,8 @@ if($did == '0')
                 users.driver_id,
                 Vehicle.License_Plate, 
                 Vehicle.Make, 
-                Vehicle.Model 
+                Vehicle.Model,
+                Vehicle.Vehicle_ID
             FROM Permit
             JOIN users ON Permit.DRIVER_ID = users.DRIVER_ID
             JOIN Vehicle ON Permit.VEHICLE_ID = Vehicle.VEHICLE_ID
@@ -56,7 +57,8 @@ else
             users.driver_id,
             Vehicle.License_Plate, 
             Vehicle.Make, 
-            Vehicle.Model 
+            Vehicle.Model,
+            Vehicle.Vehicle_ID 
             FROM Permit
             JOIN users ON Permit.DRIVER_ID = users.DRIVER_ID
             JOIN Vehicle ON Permit.VEHICLE_ID = Vehicle.VEHICLE_ID
@@ -100,8 +102,8 @@ $result = $conn->query($sql);
                     <td><?php echo $row['Make']; ?></td>
                     <td><?php echo $row['Model']; ?></td>
                     <td class='col-sm-3'>
-                        <a href="edit-permit.php?edit_id=<?php echo $row['PERMIT_ID']; ?>&name=<?php echo $row['firstname'] .'%20'. $row['lastname']; ?>&driverid=<?php echo $row['driver_id']; ?>">Edit</a> |
-                        <a href="edit-permit.php?edit_id=<?php echo $row['PERMIT_ID']; ?>&name=<?php echo $row['firstname'] .'%20'. $row['lastname']; ?>&driverid=<?php echo $row['driver_id']; ?>&view=yes">View</a> |
+                        <a href="edit-permit.php?edit_id=<?php echo $row['PERMIT_ID']; ?>&name=<?php echo $row['firstname'] .'%20'. $row['lastname']; ?>&driverid=<?php echo $row['driver_id']; ?>&vehicleid=<?php echo $row['Vehicle_ID']; ?>">Edit</a> |
+                        <a href="edit-permit.php?edit_id=<?php echo $row['PERMIT_ID']; ?>&name=<?php echo $row['firstname'] .'%20'. $row['lastname']; ?>&driverid=<?php echo $row['driver_id']; ?>&vehicleid=<?php echo $row['Vehicle_ID']; ?>&view=yes">View</a> |
                         <a href="list-permit.php?delete_id=<?php echo $row['PERMIT_ID']; ?>" onclick="return confirm('Are you sure you want to delete this permit?');">Delete</a>
                     </td>
                 </tr>

@@ -1,5 +1,6 @@
 <?php
 require_once 'utilities.php';
+require_once 'driver-io.php';
 global $conn;
 
 // Function to check if the user is an admin

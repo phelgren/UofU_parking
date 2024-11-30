@@ -98,7 +98,7 @@ else{
                         </select><br>
                         
                         <label for="driver_id">Driver:</label>
-                            <select id="driver_id" name="driver_id" required>
+                            <select id="driver_id" name="driver_id" required >
                                 <option value="">Select Driver</option>
                                 <?php while ($driver = $drivers->fetch_assoc()): ?>
                                     <option value="<?php echo $driver['DRIVER_ID']; ?>">
@@ -148,6 +148,10 @@ else{
         const cost = document.getElementById("cost"); 
         const permitcost = document.getElementById("permitcost"); 
         const permitname = document.getElementById("selectedpermit"); 
+        const vehicleID = document.getElementById("vehicle_id");
+        const driverID = document.getElementById("driver_id");
+        const voptions = vehicleID.options;
+
 
         const selectElement = document.getElementById("permit_type");
 
@@ -159,7 +163,7 @@ else{
             permitcost.value = permit_array[1]
             permitname.value = permit_array[0]
         }
-        
+  
     </script>
     <?php $conn->close(); ?>
 <?php include 'footer.php'; ?>

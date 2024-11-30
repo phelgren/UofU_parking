@@ -5,12 +5,19 @@ require_once 'authx/sanitize.php';
 
 global $conn;
 
+$view = 0;
+
 $disabled = '';
-if(isset($_GET['view']))
+if(isset($_GET['view'])){
     $disabled = 'disabled';
+    $view = 1;
+}
 
 if(isset($_GET['name']))
     $name = $_GET['name'];
+
+if(isset($_GET['vehicleid']))
+    $vid = $_GET['vehicleid'];
 
 if (isset($_GET['edit_id'])) {
     $permit_id = intval(mysql_entities_fix_string($conn,$_GET['edit_id']));
@@ -54,7 +61,11 @@ if (isset($_POST['updatepermit'])){
 
 <div class="container">
 <div class="row justify-content-center">
-<h2>Edit Permit</h2>
+<?php if($view)
+    echo '<h2> View Permit</h2>';
+else
+    echo '<h2>Edit Permit</h2>';
+?>
 <div class="col-md-8">
     <div class="card">
 
@@ -71,7 +82,7 @@ if (isset($_POST['updatepermit'])){
                             <select id="vehicle_id" name="vehicle_id" <?php echo $disabled ?> required>
                                 <option value="">Select Vehicle</option>
                                 <?php while ($vehicle = $vehicles->fetch_assoc()): ?>
-                                    <option value="<?php echo $vehicle['VEHICLE_ID']; ?>">
+                                    <option value="<?php echo $vehicle['VEHICLE_ID']; ?>" <?php if($vehicle['VEHICLE_ID'] == $vid) echo 'selected' ?>>
                                         <?php echo $vehicle['description']; ?>
                                     </option>
                                 <?php endwhile; ?>
