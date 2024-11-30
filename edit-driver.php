@@ -78,6 +78,7 @@ _END;
                                 <input type='hidden' name='updatedriver' value='yes'>
                             
                         </form>
+                            <a href='list-drivers.php'><button>Back to Driver List</button></a>
                     </div>
                 </div>
             </div>
